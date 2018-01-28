@@ -3,21 +3,32 @@ window.onload=function(){
 	var answer = document.getElementById('answer--js');
 	var input = document.getElementById('cells--js');
 
+	var resultArray = [];
 	var cumNum = 0;
+	var operator = false;
+	var decimal = false;
 	var clickFunc = function(e) {
 		var num = e.target.dataset.num;
 		var op = e.target.dataset.ops;
 		var func = e.target.dataset.func;
 		// for numbers not '.'
 		if (num) {
-			cumNum += num;
-			console.log(parseInt(cumNum));
-		} else if (op) {
-
+			if (operator === true) {
+				cumNum = 0;
+			}
+			cumNum =  parseInt(cumNum + num);
+			operator = false;
+		} else if (op && (operator === false)) {
+			resultArray.push(cumNum);
+			resultArray.push(op);
+			operator = true;
+			console.log(resultArray);
 		} else if (func) {
 
 		}
 
+		// var text = document.createTextNode(cumNum);
+		// display.appendChild(text);
 	}
 	input.addEventListener('click', clickFunc, false);
 
@@ -27,3 +38,22 @@ window.onload=function(){
 
 
 }
+
+
+// switch(op) {
+// 	case 'plus':
+// 		prevNum = prevNum + nextNum;
+// 		break;
+// 	case 'minus':
+// 		prevNum = prevNum - nextNum;
+// 		break;
+// 	case 'times':
+// 		prevNum = prevNum * nextNum;
+// 		break;
+// 	case 'percentage':
+// 		prevNum = Math.floor((prevNum / nextNum) * 100);
+// 		break;
+// 	case 'divide':
+// 		prevNum = prevNum / nextNum;
+// 		break;
+// }
