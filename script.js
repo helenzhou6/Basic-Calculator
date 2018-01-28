@@ -11,19 +11,32 @@ window.onload=function(){
 		var num = e.target.dataset.num;
 		var op = e.target.dataset.ops;
 		var func = e.target.dataset.func;
-		// for numbers not '.'
+
 		if (num) {
 			if (num !== '.') {
-				cumNum =  parseInt(cumNum + num);
+
+				if (decimal === true) {
+					var popped = resultArray.pop();
+					resultArray.push(popped + parseInt(cumNum + num));
+					// cumNum = 0;
+				} else {
+					cumNum = parseInt(cumNum + num);
+				}
 			} else if ((num === '.') && (decimal === false)) {
-				decimal = true;
 				resultArray.push(cumNum);
-				resultArray.push('.');
+-       resultArray.push('.');
 				cumNum = 0;
+				decimal = true;
 			}
 			operator = false;
-		} else if (op && (operator === false)) {
-			resultArray.push(cumNum);
+		} else if (op) {
+			if (operator === true) {
+				resultArray.pop();
+			} else {
+				if (decimal === false) {
+					resultArray.push(cumNum);
+				}
+			}
 			resultArray.push(op);
 			decimal = false;
 			operator = true;
