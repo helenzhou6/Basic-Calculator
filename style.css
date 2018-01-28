@@ -1,3 +1,6 @@
+/* TO DO */
+/* Space after screen__answer on the right needs removing */
+
 *,
 *:before,
 *:after {
@@ -20,8 +23,14 @@ body {
 .title {
 	font-weight: 700;
 	text-transform: uppercase;
-	letter-spacing: .05rem;
-	font-size: 1rem;
+	letter-spacing: .04rem;
+	font-size: 1.1rem;
+	margin: 0;
+	white-space: nowrap;
+}
+
+.header {
+		margin-bottom: .1rem;
 }
 
 .wrapper {
@@ -29,4 +38,30 @@ body {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+}
+
+.calculator {
+	background-color: #404969;
+	color: #E0FCFF;
+	font-weight: 700;
+}
+
+.screen__answer {
+	font-size: 2.3rem;
+	margin-bottom: -7px;
+	text-align: right;
+}
+
+.screen__display {
+	font-size: .6rem;
+	text-align: right;
+}
+
+.calc-screen {
+	border-bottom: 5.5px solid #E0FCFF;
+	padding: 1.8rem 1.8rem 0 1.8rem;
+}
+
+.calc-body {
+	padding: 1.5rem;
 }
