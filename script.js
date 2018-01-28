@@ -13,15 +13,21 @@ window.onload=function(){
 		var func = e.target.dataset.func;
 		// for numbers not '.'
 		if (num) {
-			if (operator === true) {
+			if (num !== '.') {
+				cumNum =  parseInt(cumNum + num);
+			} else if ((num === '.') && (decimal === false)) {
+				decimal = true;
+				resultArray.push(cumNum);
+				resultArray.push('.');
 				cumNum = 0;
 			}
-			cumNum =  parseInt(cumNum + num);
 			operator = false;
 		} else if (op && (operator === false)) {
 			resultArray.push(cumNum);
 			resultArray.push(op);
+			decimal = false;
 			operator = true;
+			cumNum = 0;
 			console.log(resultArray);
 		} else if (func) {
 
