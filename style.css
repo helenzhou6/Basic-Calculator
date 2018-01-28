@@ -1,0 +1,16 @@
+*,
+*:before,
+*:after {
+	/* border: 1px solid lightblue; */
+  box-sizing: border-box;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+body {
+	font-family: 'Roboto', sans-serif;
+}
