@@ -1,5 +1,6 @@
 /* STYLING TO DO */
 /* Space after screen__answer on the right needs removing */
+/* On click - button feedback */
 
 /* + button flex stretch vert? and double check calc */
 /* Thinner cell bottom borders */
@@ -87,6 +88,7 @@ body {
 	padding-left: .3rem;
 	padding-bottom: .4rem;
 	padding-top: .7rem;
+	cursor: pointer;
 }
 
 .is-orange {
