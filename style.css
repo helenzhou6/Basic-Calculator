@@ -1,5 +1,13 @@
-/* TO DO */
+/* STYLING TO DO */
 /* Space after screen__answer on the right needs removing */
+/* What happens when very long line of calcs */
+/* Argh the massively long + button */
+/* Thinner cell bottom borders */
+
+/* JS TO DO */
+/* What happens when you have too many characters/calculated value high*/
+/* Need to add key press for 0-9 and + etc*/
+
 
 *,
 *:before,
@@ -44,10 +52,11 @@ body {
 	background-color: #404969;
 	color: #E0FCFF;
 	font-weight: 700;
+	min-width: 15.7rem;
 }
 
 .screen__answer {
-	font-size: 2.3rem;
+	font-size: 2.25rem;
 	margin-bottom: -7px;
 	text-align: right;
 }
@@ -59,9 +68,25 @@ body {
 
 .calc-screen {
 	border-bottom: 5.5px solid #E0FCFF;
-	padding: 1.8rem 1.8rem 0 1.8rem;
+	padding: 1.8rem 1.7rem 0;
 }
 
 .calc-body {
-	padding: 1.5rem;
+	font-size: 1.08rem;
+	padding: .6rem 1.3rem 2rem;
+}
+
+.body__cell {
+	float: left;
+	width: calc(25% - .8rem);
+	border-bottom: thin solid rgba(224, 252, 255, 1);
+	margin: .4rem;
+	padding-left: .3rem;
+	padding-bottom: .4rem;
+	padding-top: .7rem;
+}
+
+.is-orange {
+	color: #FF7F50;
+	border-bottom: thin solid #FF7F50;
 }
