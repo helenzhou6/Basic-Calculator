@@ -3,8 +3,7 @@ window.onload=function(){
 	var answer = document.getElementById('answer--js');
 	var input = document.getElementById('cells--js');
 
-	var resultArray = [];
-	var cumNum = 0;
+	var resultArray = '';
 	var operator = false;
 	var decimal = false;
 
@@ -13,46 +12,43 @@ window.onload=function(){
 		var op = e.target.dataset.ops;
 		var func = e.target.dataset.func;
 
+		// If a number type is pressed
 		if (num) {
-			if (num !== '.') {
 
-				if (decimal === true) {
-					var popped = resultArray.pop();
-					resultArray.push(popped + parseInt(cumNum + num));
-					// cumNum = 0;
+			// If decimal selected
+			if (num === '.') {
+				if (!decimal) {
+					decimal = true;
 				} else {
-					cumNum = parseInt(cumNum + num);
+					return;
 				}
-			} else if ((num === '.') && (decimal === false)) {
-				resultArray.push(cumNum);
--       resultArray.push('.');
-				cumNum = 0;
-				decimal = true;
 			}
+
+			resultArray += num;
 			operator = false;
+		// If an operator type is pressed
 		} else if (op) {
+
+			// If operator already pressed
 			if (operator === true) {
-				resultArray.pop();
-			} else {
-				if (decimal === false) {
-					resultArray.push(cumNum);
-				}
+				resultArray = resultArray.slice(0, -1);
 			}
-			resultArray.push(op);
+			
+			resultArray += op;
 			decimal = false;
 			operator = true;
-			cumNum = 0;
-			console.log(resultArray);
+
 		} else if (func) {
 
 		}
-
-		// var text = document.createTextNode(cumNum);
+		// console.log(resultArray);
+		console.log(eval(resultArray));
+		// var text = document.createTextNode(resultArray);
 		// display.appendChild(text);
 	}
 	input.addEventListener('click', clickFunc, false);
 
-	console.log(eval('2 + 2 / 4'));
+
 	// data-func = ac and ce and equals
 	// data-num = .0123456789
 	// data-ops =  + / - %
