@@ -1,6 +1,7 @@
 /* STYLING TO DO */
 /* Space after screen__answer on the right needs removing */
 /* On click - button feedback */
+/* Think about disabling certain buttons (e.g. decimal once clicked) */
 
 /* + button flex stretch vert? and double check calc */
 /* Thinner cell bottom borders */
@@ -89,6 +90,16 @@ body {
 	padding-bottom: .4rem;
 	padding-top: .7rem;
 	cursor: pointer;
+}
+
+button {
+	background-color: transparent;
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	text-align: left;
+	color: #E0FCFF;
+	font-weight: 700;
 }
 
 .is-orange {

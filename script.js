@@ -7,6 +7,7 @@ window.onload=function(){
 	var cumNum = 0;
 	var operator = false;
 	var decimal = false;
+
 	var clickFunc = function(e) {
 		var num = e.target.dataset.num;
 		var op = e.target.dataset.ops;
@@ -51,28 +52,9 @@ window.onload=function(){
 	}
 	input.addEventListener('click', clickFunc, false);
 
+	console.log(eval('2 + 2 / 4'));
 	// data-func = ac and ce and equals
 	// data-num = .0123456789
 	// data-ops =  + / - %
 
-
 }
-
-
-// switch(op) {
-// 	case 'plus':
-// 		prevNum = prevNum + nextNum;
-// 		break;
-// 	case 'minus':
-// 		prevNum = prevNum - nextNum;
-// 		break;
-// 	case 'times':
-// 		prevNum = prevNum * nextNum;
-// 		break;
-// 	case 'percentage':
-// 		prevNum = Math.floor((prevNum / nextNum) * 100);
-// 		break;
-// 	case 'divide':
-// 		prevNum = prevNum / nextNum;
-// 		break;
-// }
