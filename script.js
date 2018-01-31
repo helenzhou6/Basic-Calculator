@@ -51,7 +51,9 @@ window.onload=function(){
 	}
 	input.addEventListener('click', clickFunc, false);
 
-	
+	var string = '000.2+.342+32432.+000200+0.0002+9.9+000.9+.9';
+	// JUST NEED TO DO BEGINNING OF STRING MULTI ZEROS
+	console.log(string.replace(/(?!\d)[.](?=[+-/*])/g, '').replace(/(?<=[-+/*])[.]/g, '0.').replace(/(?<=[-+/*])([0]+)(?=\d)/g, '').replace(/^0+(?=\d)/g, ''));
 	// data-func = ac and ce and equals
 	// data-num = .0123456789
 	// data-ops =  + / - %
