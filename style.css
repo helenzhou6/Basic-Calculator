@@ -6,6 +6,7 @@
 /* + button flex stretch vert? and double check calc */
 /* Thinner cell bottom borders */
 /* responsive rems :( */
+/* Layout should probably be display table */
 
 /* JS TO DO */
 /* What happens when you have too many characters (8 digits max)/calculated value high*/
@@ -107,7 +108,11 @@ button {
 	border-bottom: 1px solid #FF7F50;
 }
 
-.is-long-cell {
+.is-tall-cell {
 	padding-top: calc(3.75rem + 2px);
 	float: right;
+}
+
+.is-long-cell {
+	width: calc(50% - .86rem);
 }
