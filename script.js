@@ -1,3 +1,10 @@
+/* JS TO DO */
+/* What happens when you have too many characters (8 digits max)/calculated value high*/
+/* Need to add key press for 0-9 and + etc*/
+// MINUS NUMBERS :()
+// bug when press numbers first then hit CE
+// safari :()
+
 window.onload=function(){
 	var display = document.getElementById('display--js').firstChild;
 	var answer = document.getElementById('answer--js').firstChild;
@@ -71,8 +78,8 @@ var reset = function(){
 					opIsPressed = true;
 					currentNum = '';
 					answer.nodeValue = '0';
+					// |^\d+$|^\d+[.]\d+$|^\d+[.]$ need to add beginning
 					resultArray = resultArray.replace(/(?<=[^\d]+)\d+$|(?<=[^\d]+)\d+[.]\d+$|(?<=[^\d]+)\d+[.]$/g, '');
-					// remove last digits
 				}
 		}
 		resultArray = rgxr(resultArray);
