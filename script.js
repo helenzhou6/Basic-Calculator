@@ -27,7 +27,7 @@ var reset = function(){
 	reset();
 
 	var rgxr = function(string){
-		return string.replace(/(?!\d)[.](?=[-+/*])|^0+(?=\d)|(?<=[-+/*])([0]+)(?=\d)|(?<=\d+.\d+)[0]+(?=[-+/*])/g, '').replace(/(?<=[-+/*])[.]/g, '0.');
+		return string.replace(/(?<!\d)[.](?=[-+/*])|^0+(?=\d)|(?<=[-+/*])([0]+)(?=\d)|(?<=\d+.\d+)[0]+(?=[-+/*])/g, '').replace(/(?<=[-+/*])[.]/g, '0.');
 	}
 
 	var divTimesRegx = function (string){
