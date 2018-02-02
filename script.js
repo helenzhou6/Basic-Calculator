@@ -19,7 +19,7 @@ var reset = function(){
 	display.nodeValue = '0';
 	answer.nodeValue = '0';
 
-	resultArray = '0';
+	resultArray = '';
 	opIsPressed = false;
 	decIsPressed = false;
 	currentNum = '';
@@ -27,7 +27,7 @@ var reset = function(){
 	reset();
 
 	var rgxr = function(string){
-		return string.replace(/(?<!\d)[.](?=[-+/*])|^0+(?=\d)|(?<=[-+/*])([0]+)(?=\d)|(?<=\d+.\d+)[0]+(?=[-+/*])/g, '').replace(/(?<=[-+/*])[.]/g, '0.');
+		return string.replace(/[.](?=[-+/*])|[.][0]+(?=[-+/*])/g, '');
 	}
 
 	var divTimesRegx = function (string){
@@ -44,7 +44,6 @@ var reset = function(){
 
 			// If decimal selected
 			if (num === '.') {
-				// USE parseFloat etc
 				if (!decIsPressed) {
 					decIsPressed = true;
 				} else {
@@ -52,24 +51,34 @@ var reset = function(){
 				}
 			}
 
-			resultArray += num;
 			opIsPressed = false;
 			currentNum += num;
-			answer.nodeValue = currentNum.replace(/^0+(?=\d)/g, '').replace(/^[.]/g, '0.');
+			currentNum = currentNum.replace(/^[0]+(?=\d)/g, '').replace(/^[.]/g, '0.');
+			answer.nodeValue = currentNum;
+
+			resultArray = rgxr(resultArray);
+			display.nodeValue = divTimesRegx(resultArray) + currentNum;
 		// If an operator type is pressed
 		} else if (op) {
 
-			// If operator already pressed
-			if (opIsPressed) {
-				resultArray = resultArray.slice(0, -1);
-			}
-			resultArray += op;
-			decIsPressed = false;
-			opIsPressed = true;
-			currentNum = '';
-			answer.nodeValue = divTimesRegx(op);
+				// If operator already pressed
+				if (opIsPressed) {
+					resultArray = resultArray.slice(0, -1);
+				} else if (decIsPressed) {
+					currentNum = currentNum.replace(/[0]+$/g, '');
+				}
+
+				resultArray += currentNum + op;
+				decIsPressed = false;
+				opIsPressed = true;
+				currentNum = '';
+				answer.nodeValue = divTimesRegx(op);
+
+				resultArray = rgxr(resultArray);
+				display.nodeValue = divTimesRegx(resultArray);
 		} else if (func) {
 				if ((func === '=') && (!opIsPressed)) {
+					resultArray += currentNum;
 					answer.nodeValue = (eval(resultArray));
 				} else if (func === 'ac') {
 					reset();
@@ -77,13 +86,11 @@ var reset = function(){
 					decIsPressed = false;
 					opIsPressed = true;
 					currentNum = '';
+					display.nodeValue = divTimesRegx(resultArray);
 					answer.nodeValue = '0';
-					// |^\d+$|^\d+[.]\d+$|^\d+[.]$ need to add beginning
-					resultArray = resultArray.replace(/(?<=[^\d]+)\d+$|(?<=[^\d]+)\d+[.]\d+$|(?<=[^\d]+)\d+[.]$/g, '');
 				}
 		}
-		resultArray = rgxr(resultArray);
-		display.nodeValue = divTimesRegx(resultArray);
+
 	}
 	input.addEventListener('click', clickFunc, false);
 
