@@ -1,9 +1,9 @@
 /* JS TO DO */
 /* What happens when you have too many characters (8 digits max)/calculated value high*/
 /* Need to add key press for 0-9 and + etc*/
-// MINUS NUMBERS :()
-// bug when press numbers first then hit CE
-// safari :()
+
+// equals then number - display is wrong
+// 3.3011+0.3
 
 window.onload=function(){
 	var display = document.getElementById('display--js').firstChild;
@@ -19,15 +19,16 @@ var reset = function(){
 	display.nodeValue = '0';
 	answer.nodeValue = '0';
 
-	resultArray = '';
+	resultArray = '0';
 	opIsPressed = false;
 	decIsPressed = false;
 	currentNum = '';
 }
+
 	reset();
 
 	var rgxr = function(string){
-		return string.replace(/[.](?=[-+/*])|[.][0]+(?=[-+/*])/g, '');
+		return string.replace(/[.](?=[-+/*])|^[0](?=\d)|[.][0]+(?=[-+/*])/g, '');
 	}
 
 	var divTimesRegx = function (string){
@@ -50,14 +51,18 @@ var reset = function(){
 					return;
 				}
 			}
-
 			opIsPressed = false;
 			currentNum += num;
 			currentNum = currentNum.replace(/^[0]+(?=\d)/g, '').replace(/^[.]/g, '0.');
 			answer.nodeValue = currentNum;
 
 			resultArray = rgxr(resultArray);
-			display.nodeValue = divTimesRegx(resultArray) + currentNum;
+			if (resultArray === '0') {
+				display.nodeValue = currentNum;
+			} else {
+				display.nodeValue = divTimesRegx(resultArray) + currentNum;
+			}
+
 		// If an operator type is pressed
 		} else if (op) {
 
@@ -79,6 +84,7 @@ var reset = function(){
 		} else if (func) {
 				if ((func === '=') && (!opIsPressed)) {
 					resultArray += currentNum;
+					currentNum = '';
 					answer.nodeValue = (eval(resultArray));
 				} else if (func === 'ac') {
 					reset();
@@ -86,8 +92,8 @@ var reset = function(){
 					decIsPressed = false;
 					opIsPressed = true;
 					currentNum = '';
-					display.nodeValue = divTimesRegx(resultArray);
 					answer.nodeValue = '0';
+					display.nodeValue = divTimesRegx(resultArray);
 				}
 		}
 
