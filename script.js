@@ -1,8 +1,8 @@
 /* JS TO DO */
 /* What happens when you have too many characters (8 digits max)/calculated value high*/
 /* Need to add key press for 0-9 and + etc*/
+// REFACTOR
 
-// equals then number - display is wrong
 // 3.3011+0.3
 
 window.onload=function(){
@@ -81,11 +81,13 @@ var reset = function(){
 
 				resultArray = rgxr(resultArray);
 				display.nodeValue = divTimesRegx(resultArray);
+
 		} else if (func) {
 				if ((func === '=') && (!opIsPressed)) {
 					resultArray += currentNum;
 					currentNum = '';
 					answer.nodeValue = (eval(resultArray));
+					resultArray = '0';
 				} else if (func === 'ac') {
 					reset();
 				} else if (func === 'ce') {
@@ -96,8 +98,8 @@ var reset = function(){
 					display.nodeValue = divTimesRegx(resultArray);
 				}
 		}
-
 	}
+
 	input.addEventListener('click', clickFunc, false);
 
 }
