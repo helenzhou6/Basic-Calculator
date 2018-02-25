@@ -94,6 +94,7 @@ var reset = function(){
 						return;
 					}
 					resultArray += currentNum;
+					resultArray = rgxr(resultArray);
 					currentNum = '';
 					answer.nodeValue = (eval(resultArray));
 					resultArray = '0';
@@ -113,13 +114,13 @@ var reset = function(){
 						currentNum = resultArray.match(/\d+$|\d+[.]$|\d+[.]\d+$/g);
 						resultArray = resultArray.replace(/\d+$|\d+[.]$|\d+[.]\d+$/g, '');
 						
-						// if (!resultArray || !(resultArray == '0')) {
-							// reset();
-						// } else {
+						if (!resultArray || !(resultArray == '0')) {
+							reset();
+						} else {
 							answer.nodeValue = currentNum;
 							display.nodeValue = divTimesRegx(resultArray) + currentNum;
 							opIsPressed = false;
-						// }
+						}
 
 					}
 				}
