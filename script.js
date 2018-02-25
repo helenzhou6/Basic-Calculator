@@ -2,6 +2,8 @@
 /* What happens when you have too many characters (8 digits max)/calculated value high*/
 /* Need to add key press for 0-9 and + etc*/
 // REFACTOR
+// doesnt account for negative numbers 
+// pressing equals multiple times BUG
 
 // 3.3011+0.3
 
@@ -51,6 +53,9 @@ var reset = function(){
 					return;
 				}
 			}
+			if (opIsPressed) {
+				currentNum = '';
+			}
 			opIsPressed = false;
 			currentNum += num;
 			currentNum = currentNum.replace(/^[0]+(?=\d)/g, '').replace(/^[.]/g, '0.');
@@ -76,7 +81,6 @@ var reset = function(){
 				resultArray += currentNum + op;
 				decIsPressed = false;
 				opIsPressed = true;
-				currentNum = '';
 				answer.nodeValue = divTimesRegx(op);
 
 				resultArray = rgxr(resultArray);
@@ -91,11 +95,20 @@ var reset = function(){
 				} else if (func === 'ac') {
 					reset();
 				} else if (func === 'ce') {
-					decIsPressed = false;
-					opIsPressed = true;
-					currentNum = '';
-					answer.nodeValue = '0';
-					display.nodeValue = divTimesRegx(resultArray);
+					if (!opIsPressed) {
+						answer.nodeValue = resultArray.match(/[-+/x]$/g);
+						currentNum = '';
+						decIsPressed = false;
+						opIsPressed = true;
+						display.nodeValue = divTimesRegx(resultArray);
+					} else {
+						resultArray = resultArray.replace(/[-+/x]$/g, '');
+						currentNum = resultArray.match(/\d+$|\d+[.]$|\d+[.]\d+$/g);
+						resultArray = resultArray.replace(/\d+$|\d+[.]$|\d+[.]\d+$/g, '');
+						answer.nodeValue = currentNum;
+						display.nodeValue = divTimesRegx(resultArray) + currentNum;
+						opIsPressed = false;
+					}
 				}
 		}
 	}
