@@ -1,11 +1,11 @@
 /* JS TO DO */
 /* What happens when you have too many characters (8 digits max)/calculated value high*/
 /* Need to add key press for 0-9 and + etc*/
-// REFACTOR
-// doesnt account for negative numbers 
-// pressing equals multiple times BUG
 
-// 3.3011+0.3
+// REFACTOR
+// pressing CE multiple times BUG
+
+// 3.3011+0.3 (round to 2dp?)
 
 window.onload=function(){
 	var display = document.getElementById('display--js').firstChild;
@@ -16,6 +16,7 @@ window.onload=function(){
 	var opIsPressed = false;
 	var decIsPressed = false;
 	var currentNum = '';
+	var eqIsPressed = false;
 
 var reset = function(){
 	display.nodeValue = '0';
@@ -24,6 +25,7 @@ var reset = function(){
 	resultArray = '0';
 	opIsPressed = false;
 	decIsPressed = false;
+	eqIsPressed = false;
 	currentNum = '';
 }
 
@@ -44,7 +46,7 @@ var reset = function(){
 
 		// If a number type is pressed
 		if (num) {
-
+			eqIsPressed = false;
 			// If decimal selected
 			if (num === '.') {
 				if (!decIsPressed) {
@@ -70,7 +72,7 @@ var reset = function(){
 
 		// If an operator type is pressed
 		} else if (op) {
-
+				eqIsPressed = false;
 				// If operator already pressed
 				if (opIsPressed) {
 					resultArray = resultArray.slice(0, -1);
@@ -88,14 +90,19 @@ var reset = function(){
 
 		} else if (func) {
 				if ((func === '=') && (!opIsPressed)) {
+					if (eqIsPressed) {
+						return;
+					}
 					resultArray += currentNum;
 					currentNum = '';
 					answer.nodeValue = (eval(resultArray));
 					resultArray = '0';
+					eqIsPressed = true;
 				} else if (func === 'ac') {
 					reset();
 				} else if (func === 'ce') {
-					if (!opIsPressed) {
+					eqIsPressed = false;
+					if (!opIsPressed && currentNum && !(resultArray === '0')) {
 						answer.nodeValue = resultArray.match(/[-+/x]$/g);
 						currentNum = '';
 						decIsPressed = false;
@@ -105,9 +112,15 @@ var reset = function(){
 						resultArray = resultArray.replace(/[-+/x]$/g, '');
 						currentNum = resultArray.match(/\d+$|\d+[.]$|\d+[.]\d+$/g);
 						resultArray = resultArray.replace(/\d+$|\d+[.]$|\d+[.]\d+$/g, '');
-						answer.nodeValue = currentNum;
-						display.nodeValue = divTimesRegx(resultArray) + currentNum;
-						opIsPressed = false;
+						
+						// if (!resultArray || !(resultArray == '0')) {
+							// reset();
+						// } else {
+							answer.nodeValue = currentNum;
+							display.nodeValue = divTimesRegx(resultArray) + currentNum;
+							opIsPressed = false;
+						// }
+
 					}
 				}
 		}
