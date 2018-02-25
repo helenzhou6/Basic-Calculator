@@ -3,7 +3,7 @@
 /* Need to add key press for 0-9 and + etc*/
 
 // REFACTOR
-// pressing CE multiple times BUG
+// pressing CE multiple times BUG && / to diide sign
 
 // 3.3011+0.3 (round to 2dp?)
 
@@ -55,9 +55,7 @@ var reset = function(){
 					return;
 				}
 			}
-			if (opIsPressed) {
-				currentNum = '';
-			}
+
 			opIsPressed = false;
 			currentNum += num;
 			currentNum = currentNum.replace(/^[0]+(?=\d)/g, '').replace(/^[.]/g, '0.');
@@ -84,7 +82,7 @@ var reset = function(){
 				decIsPressed = false;
 				opIsPressed = true;
 				answer.nodeValue = divTimesRegx(op);
-
+				currentNum = '';
 				resultArray = rgxr(resultArray);
 				display.nodeValue = divTimesRegx(resultArray);
 
@@ -102,27 +100,29 @@ var reset = function(){
 				} else if (func === 'ac') {
 					reset();
 				} else if (func === 'ce') {
+					// console.log(resultArray);
 					eqIsPressed = false;
-					if (!opIsPressed && currentNum && !(resultArray === '0')) {
-						answer.nodeValue = resultArray.match(/[-+/x]$/g);
+					// if 99- operator then CE - removes operator and reinstates prev number 99
+					if (opIsPressed) {
+						resultArray = resultArray.replace(/[-+/*]$/g, '');
+						currentNum = resultArray.match(/\d+$|\d+[.]$|\d+[.]\d+$/g);
+						resultArray = resultArray.replace(/\d+$|\d+[.]$|\d+[.]\d+$/g, '');
+						answer.nodeValue = currentNum;
+						display.nodeValue = divTimesRegx(resultArray) + currentNum;
+						opIsPressed = false;
+					// if operator not pressed and just current no. or multiple CEs - reset
+					} else if (!opIsPressed && resultArray === '0') {
+						reset();
+					// or if operator not pressed and 99-99 (OK) but bug if 99
+					} else if (!opIsPressed && (resultArray !== '0' || resultArray === '')) {
+						console.log(resultArray);
+						console.log(currentNum);
+						answer.nodeValue = resultArray.match(/[-+/*]$/g);
 						currentNum = '';
 						decIsPressed = false;
 						opIsPressed = true;
 						display.nodeValue = divTimesRegx(resultArray);
-					} else {
-						resultArray = resultArray.replace(/[-+/x]$/g, '');
-						currentNum = resultArray.match(/\d+$|\d+[.]$|\d+[.]\d+$/g);
-						resultArray = resultArray.replace(/\d+$|\d+[.]$|\d+[.]\d+$/g, '');
-						
-						if (!resultArray || !(resultArray == '0')) {
-							reset();
-						} else {
-							answer.nodeValue = currentNum;
-							display.nodeValue = divTimesRegx(resultArray) + currentNum;
-							opIsPressed = false;
-						}
-
-					}
+					} 
 				}
 		}
 	}
