@@ -1,10 +1,10 @@
 /* JS TO DO */
-/* What happens when you have too many characters (8 digits max)/calculated value high*/
 /* Need to add key press for 0-9 and + etc*/
-
 // REFACTOR
 
-// 3.3011+0.3 (round to 2dp?)
+// TO THINK ABOUT
+/* What happens when you have too many characters (8 digits max)/calculated value high*/
+// 3.3011+0.3 (round to 2dp? or decimals times by 10 and then divide by 10 at end?)
 
 window.onload=function(){
 	var display = document.getElementById('display--js').firstChild;
