@@ -9,25 +9,23 @@
 window.onload=function(){
 	var display = document.getElementById('display--js').firstChild;
 	var answer = document.getElementById('answer--js').firstChild;
-	var input = document.getElementById('cells--js');
 
-	var resultArray = '0';
-	var opIsPressed = false;
-	var decIsPressed = false;
-	var currentNum = '';
-	var eqIsPressed = false;
+	var resultArray;
+	var opIsPressed;
+	var decIsPressed;
+	var currentNum;
+	var eqIsPressed;
 
-var reset = function(){
-	display.nodeValue = '0';
-	answer.nodeValue = '0';
+	var reset = function(){
+		display.nodeValue = '0';
+		answer.nodeValue = '0';
 
-	resultArray = '0';
-	opIsPressed = false;
-	decIsPressed = false;
-	eqIsPressed = false;
-	currentNum = '';
-}
-
+		resultArray = '0';
+		opIsPressed = false;
+		decIsPressed = false;
+		eqIsPressed = false;
+		currentNum = '';
+	}
 	reset();
 
 	var rgxr = function(string){
@@ -69,59 +67,56 @@ var reset = function(){
 
 		// If an operator type is pressed
 		} else if (op) {
-				eqIsPressed = false;
-				// If operator already pressed
-				if (opIsPressed) {
-					resultArray = resultArray.slice(0, -1);
-				} else if (decIsPressed) {
-					currentNum = currentNum.replace(/[0]+$/g, '');
-				}
+			eqIsPressed = false;
+			// If operator already pressed
+			if (opIsPressed) {
+				resultArray = resultArray.slice(0, -1);
+			} else if (decIsPressed) {
+				currentNum = currentNum.replace(/[0]+$/g, '');
+			}
 
-				resultArray += currentNum + op;
-				decIsPressed = false;
-				opIsPressed = true;
-				answer.nodeValue = divTimesRegx(op);
-				currentNum = '';
-				resultArray = rgxr(resultArray);
-				display.nodeValue = divTimesRegx(resultArray);
+			resultArray += currentNum + op;
+			decIsPressed = false;
+			opIsPressed = true;
+			answer.nodeValue = divTimesRegx(op);
+			currentNum = '';
+			resultArray = rgxr(resultArray);
+			display.nodeValue = divTimesRegx(resultArray);
 
 		} else if (func) {
-				if ((func === '=') && (!opIsPressed)) {
-					if (eqIsPressed) {
-						return;
-					}
-					resultArray += currentNum;
-					resultArray = rgxr(resultArray);
+			if ((func === '=') && (!opIsPressed) && !eqIsPressed) {
+				resultArray += currentNum;
+				resultArray = rgxr(resultArray);
+				currentNum = '';
+				answer.nodeValue = (eval(resultArray));
+				resultArray = '0';
+				eqIsPressed = true;
+			} else if (func === 'ac') {
+				reset();
+			} else if (func === 'ce') {
+				eqIsPressed = false;
+				// if 99- operator then CE - removes operator and reinstates prev number 99
+				if (opIsPressed) {
+					resultArray = resultArray.replace(/[-+/*]$/g, '');
+					currentNum = resultArray.match(/\d+$|\d+[.]$|\d+[.]\d+$/g);
+					resultArray = resultArray.replace(/\d+$|\d+[.]$|\d+[.]\d+$/g, '');
+					answer.nodeValue = currentNum;
+					display.nodeValue = divTimesRegx(resultArray) + currentNum;
+					opIsPressed = false;
+				// for cases e.g. 9-99
+				} else if (!opIsPressed && /[-+/*]/.test(resultArray)) {
+					answer.nodeValue = divTimesRegx(resultArray.match(/[-+/*]$/g)[0]);
 					currentNum = '';
-					answer.nodeValue = (eval(resultArray));
-					resultArray = '0';
-					eqIsPressed = true;
-				} else if (func === 'ac') {
+					decIsPressed = false;
+					opIsPressed = true;
+					display.nodeValue = divTimesRegx(resultArray);
+				} else {
 					reset();
-				} else if (func === 'ce') {
-					eqIsPressed = false;
-					// if 99- operator then CE - removes operator and reinstates prev number 99
-					if (opIsPressed) {
-						resultArray = resultArray.replace(/[-+/*]$/g, '');
-						currentNum = resultArray.match(/\d+$|\d+[.]$|\d+[.]\d+$/g);
-						resultArray = resultArray.replace(/\d+$|\d+[.]$|\d+[.]\d+$/g, '');
-						answer.nodeValue = currentNum;
-						display.nodeValue = divTimesRegx(resultArray) + currentNum;
-						opIsPressed = false;
-					// for cases e.g. 9-99
-					} else if (!opIsPressed && /[-+/*]/.test(resultArray)) {
-						answer.nodeValue = divTimesRegx(resultArray.match(/[-+/*]$/g)[0]);
-						currentNum = '';
-						decIsPressed = false;
-						opIsPressed = true;
-						display.nodeValue = divTimesRegx(resultArray);
-					} else {
-						reset();
-					}
 				}
+			}
 		}
 	}
 
-	input.addEventListener('click', clickFunc, false);
+	document.getElementById('cells--js').addEventListener('click', clickFunc, false);
 
 }
