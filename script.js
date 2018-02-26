@@ -3,7 +3,6 @@
 /* Need to add key press for 0-9 and + etc*/
 
 // REFACTOR
-// pressing CE multiple times BUG && / to diide sign
 
 // 3.3011+0.3 (round to 2dp?)
 
@@ -36,7 +35,7 @@ var reset = function(){
 	}
 
 	var divTimesRegx = function (string){
-		return string.replace(/[*]/g, 'x').replace(/[/]/g, '÷')
+		return string.replace(/[*]/g, 'x').replace(/[/]/g, '÷');
 	}
 
 	var clickFunc = function(e) {
@@ -100,7 +99,6 @@ var reset = function(){
 				} else if (func === 'ac') {
 					reset();
 				} else if (func === 'ce') {
-					// console.log(resultArray);
 					eqIsPressed = false;
 					// if 99- operator then CE - removes operator and reinstates prev number 99
 					if (opIsPressed) {
@@ -110,19 +108,16 @@ var reset = function(){
 						answer.nodeValue = currentNum;
 						display.nodeValue = divTimesRegx(resultArray) + currentNum;
 						opIsPressed = false;
-					// if operator not pressed and just current no. or multiple CEs - reset
-					} else if (!opIsPressed && resultArray === '0') {
-						reset();
-					// or if operator not pressed and 99-99 (OK) but bug if 99
-					} else if (!opIsPressed && (resultArray !== '0' || resultArray === '')) {
-						console.log(resultArray);
-						console.log(currentNum);
-						answer.nodeValue = resultArray.match(/[-+/*]$/g);
+					// for cases e.g. 9-99
+					} else if (!opIsPressed && /[-+/*]/.test(resultArray)) {
+						answer.nodeValue = divTimesRegx(resultArray.match(/[-+/*]$/g)[0]);
 						currentNum = '';
 						decIsPressed = false;
 						opIsPressed = true;
 						display.nodeValue = divTimesRegx(resultArray);
-					} 
+					} else {
+						reset();
+					}
 				}
 		}
 	}
